@@ -133,7 +133,7 @@ class SelectedTimeRangeWidget extends StatelessWidget {
           },
         ),
         MenuItemButton(
-          leadingIcon: const Icon(Icons.event_note),
+          leadingIcon: const Icon(Icons.event_outlined),
           child: const Text('Toàn thời gian'),
           onPressed: () {
             // Ngày hiện tại
