@@ -61,11 +61,11 @@ class SelectedTimeRangeWidget extends StatelessWidget {
               DateTime.now().year,
               DateTime.now().month,
               DateTime.now().day,
-            );
+            ).subtract(const Duration(seconds: 1));
 
             //ngày hôm qua
-            DateTime yesterday = DateTime(now.year, now.month, now.day - 1);
-            onSelectDate.call(yesterday, yesterday);
+            DateTime yesterday = DateTime(now.year, now.month, now.day);
+            onSelectDate.call(yesterday, now);
           },
         ),
         MenuItemButton(
@@ -78,7 +78,7 @@ class SelectedTimeRangeWidget extends StatelessWidget {
               DateTime.now().month,
               DateTime.now().day,
             );
-            onSelectDate.call(now, now.add(const Duration(days: 1)));
+            onSelectDate.call(now, DateTime.now());
           },
         ),
         MenuItemButton(
@@ -94,7 +94,7 @@ class SelectedTimeRangeWidget extends StatelessWidget {
 
             //7 ngày trước
             DateTime sevenDayAgo = DateTime(now.year, now.month, now.day - 7);
-            onSelectDate.call(sevenDayAgo, now);
+            onSelectDate.call(sevenDayAgo, DateTime.now());
           },
         ),
         MenuItemButton(
@@ -112,7 +112,7 @@ class SelectedTimeRangeWidget extends StatelessWidget {
             DateTime firstDayOfLastMonth = DateTime(now.year, now.month - 1, 1);
 
             //ngày đầu tháng trước
-            DateTime lastDayOfLastMonth = DateTime(now.year, now.month, 1).subtract(const Duration(days: 1));
+            DateTime lastDayOfLastMonth = DateTime(now.year, now.month, 1).subtract(const Duration(seconds: 1));
 
             onSelectDate.call(firstDayOfLastMonth, lastDayOfLastMonth);
           },
@@ -122,14 +122,10 @@ class SelectedTimeRangeWidget extends StatelessWidget {
           child: const Text('Tháng này'),
           onPressed: () {
             // Ngày hiện tại
-            DateTime s = DateTime(
-              DateTime.now().year,
-              DateTime.now().month,
-              // DateTime.now().day,
-            );
+            DateTime now = DateTime.now();
             //ngày đầu tháng này
-            DateTime e = DateTime(DateTime.now().year, DateTime.now().month + 1);
-            onSelectDate.call(s, e);
+            DateTime firstDayOfLastMonth = DateTime(now.year, now.month, 1);
+            onSelectDate.call(firstDayOfLastMonth, now);
           },
         ),
         MenuItemButton(
