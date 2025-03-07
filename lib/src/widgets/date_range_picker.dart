@@ -30,14 +30,11 @@ class SelectedTimeRangeWidget extends StatelessWidget {
             }
           },
           child: Container(
-            padding: padding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-            decoration: decoration ??
-                BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [AppBoxShadow.ksSmallShadow()],
-                  borderRadius: BorderRadius.circular(4),
-                  // border: Border.all(width: 0.4),
-                ),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(width: 0.4),
+            ),
             child: Row(
               children: [
                 Icon(
@@ -132,6 +129,17 @@ class SelectedTimeRangeWidget extends StatelessWidget {
             );
             //ngày đầu tháng này
             DateTime e = DateTime(DateTime.now().year, DateTime.now().month + 1);
+            onSelectDate.call(s, e);
+          },
+        ),
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.event_note),
+          child: const Text('Toàn thời gian'),
+          onPressed: () {
+            // Ngày hiện tại
+            DateTime s = DateTime.now().subtract(const Duration(days: 3650));
+            //ngày đầu tháng này
+            DateTime e = DateTime.now();
             onSelectDate.call(s, e);
           },
         ),
