@@ -161,6 +161,7 @@ class _TextFieldUrlOrUploadImageState extends State<TextFieldUrlOrUploadImage> {
             controller: controller,
             hintText: widget.hintText,
             backgroundColor: Colors.white,
+            maxLines: 1,
             borderColor: Colors.black12, showShadow: false,
             // title: widget.title,
             onChanged: (v) {
