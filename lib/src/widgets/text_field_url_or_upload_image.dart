@@ -37,6 +37,7 @@ class _TextFieldUrlOrUploadImageState extends State<TextFieldUrlOrUploadImage> {
   @override
   void initState() {
     controller = widget.controller ?? TextEditingController();
+    urlImage = widget.controller?.text ?? '';
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         controller.addListener(
