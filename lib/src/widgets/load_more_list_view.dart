@@ -9,6 +9,7 @@ class LoadMoreListView extends StatefulWidget {
     super.key,
     this.separatorBuilder,
     this.padding,
+    this.shrinkWrap = true,
   });
 
   final int itemCount;
@@ -17,6 +18,7 @@ class LoadMoreListView extends StatefulWidget {
   final ScrollController? scrollController;
   final Function? onLoadMore;
   final EdgeInsets? padding;
+  final bool shrinkWrap;
 
   @override
   State<LoadMoreListView> createState() => _LoadMoreListViewState();
@@ -49,6 +51,7 @@ class _LoadMoreListViewState extends State<LoadMoreListView> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: widget.shrinkWrap,
       padding: widget.padding,
       controller: widget.scrollController,
       itemCount: widget.itemCount,
