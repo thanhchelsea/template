@@ -19,6 +19,7 @@ class DatePickerField extends StatefulWidget {
     this.errorStyle,
     this.controller,
   });
+
   String title;
   String? hintText;
   Function? onChanged;
@@ -34,6 +35,7 @@ class DatePickerField extends StatefulWidget {
   TextStyle? errorStyle;
   TextEditingController? controller;
   bool enableInitValue;
+
   @override
   State<DatePickerField> createState() => _DatePickerFieldState();
 }
@@ -48,7 +50,10 @@ class _DatePickerFieldState extends State<DatePickerField> {
     controller = widget.controller ?? TextEditingController();
     initDate = widget.initDate;
     if (widget.enableInitValue) {
-      controller.text = (widget.initDate ?? DateTime.now()).toString().toDateTimeString(format: 'dd-MM-yyyy') ?? '';
+      controller.text = (widget.initDate ?? DateTime.now())
+              .toString()
+              .toDateTimeString(format: 'dd-MM-yyyy') ??
+          '';
     }
     super.initState();
   }
@@ -59,7 +64,10 @@ class _DatePickerFieldState extends State<DatePickerField> {
       setState(() {
         initDate = widget.initDate;
         if (widget.enableInitValue) {
-          controller.text = (widget.initDate ?? DateTime.now()).toString().toDateTimeString(format: 'dd-MM-yyyy') ?? '';
+          controller.text = (widget.initDate ?? DateTime.now())
+                  .toString()
+                  .toDateTimeString(format: 'dd-MM-yyyy') ??
+              '';
         }
       });
     }
@@ -76,7 +84,8 @@ class _DatePickerFieldState extends State<DatePickerField> {
         },
         builder: (field) {
           if (widget.isVertical) {
-            return InkWell(
+            return GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onTap: () {
                 _selectDate(context, field);
               },
@@ -84,70 +93,77 @@ class _DatePickerFieldState extends State<DatePickerField> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (widget.title.isNotEmpty)
-                    RichText(
-                      // maxLines: 1,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: widget.title,
-                            style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.black38,
+                    Text.rich(
+                      TextSpan(
+                        text: widget.title,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                          if (widget.isRequired)
-                            const TextSpan(
-                              text: "*",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                        ],
+                        children: widget.isRequired == true
+                            ? [
+                                TextSpan(
+                                  text: ' *',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(color: Colors.red),
+                                ),
+                              ]
+                            : null,
                       ),
                     ),
                   if (widget.title.isNotEmpty) const Gap(6),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            AppBoxShadow.ksSmallShadow(),
-                          ],
-                        ),
-                        child: AppTextField(
-                          contentPadding: widget.contentPadding,
-                          isRequired: widget.isRequired,
-                          controller: controller,
-                          keyboardType: TextInputType.multiline,
-                          hintText: widget.hintText ?? widget.title,
-                          backgroundColor: Colors.white,
-                          borderColor: field.hasError ? Colors.red : Colors.transparent,
-                          hintStyle: widget.hintStyle,
-                          // title: widget.title,
-                          style: widget.style,
-
-                          showShadow: true,
-                          enable: false,
-                          prefixIcon: widget.showPrefixIcon
-                              ? Icon(
-                                  Icons.date_range,
-                                  color: Theme.of(context).primaryColor,
-                                )
-                              : null,
-                        ),
-                      ),
-                      if (field.hasError)
+                  Opacity(
+                    opacity: widget.enable ? 1 : 0.8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Container(
-                          margin: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            field.errorText ?? '',
-                            style: widget.errorStyle ??
-                                TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.red,
-                                ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.secondary,
+                              width: 0.7,
+                            ),
                           ),
-                        )
-                    ],
+                          child: AppTextField(
+                            contentPadding: widget.contentPadding,
+                            isRequired: widget.isRequired,
+                            controller: controller,
+                            keyboardType: TextInputType.multiline,
+                            hintText: widget.hintText ?? widget.title,
+                            backgroundColor: Colors.white,
+                            borderColor: field.hasError
+                                ? Colors.red
+                                : Colors.transparent,
+                            hintStyle: widget.hintStyle,
+                            // title: widget.title,
+                            style: widget.style,
+                            showShadow: false,
+                            enable: false,
+                            prefixIcon: widget.showPrefixIcon
+                                ? Icon(
+                                    Icons.date_range,
+                                    color: Theme.of(context).primaryColor,
+                                  )
+                                : null,
+                          ),
+                        ),
+                        if (field.hasError)
+                          Container(
+                            margin: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              field.errorText ?? '',
+                              style: widget.errorStyle ??
+                                  TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                  ),
+                            ),
+                          )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -164,7 +180,9 @@ class _DatePickerFieldState extends State<DatePickerField> {
                   // maxLines: 1,
                   text: TextSpan(
                     children: [
-                      TextSpan(text: widget.title, style: TextStyle(overflow: TextOverflow.ellipsis)),
+                      TextSpan(
+                          text: widget.title,
+                          style: TextStyle(overflow: TextOverflow.ellipsis)),
                       if (widget.isRequired)
                         const TextSpan(
                           text: "*",
@@ -190,7 +208,8 @@ class _DatePickerFieldState extends State<DatePickerField> {
                           keyboardType: TextInputType.multiline,
                           hintText: widget.title,
                           backgroundColor: Colors.white,
-                          borderColor: field.hasError ? Colors.red : Colors.transparent,
+                          borderColor:
+                              field.hasError ? Colors.red : Colors.transparent,
 
                           // title: widget.title,
                           showShadow: true,
@@ -245,7 +264,8 @@ class _DatePickerFieldState extends State<DatePickerField> {
       field.didChange(picked);
       setState(() {
         selectedDate = picked;
-        String date = selectedDate.toString().toDateTimeString(format: "yyyy-MM-dd");
+        String date =
+            selectedDate.toString().toDateTimeString(format: "yyyy-MM-dd");
         controller.text = date;
         widget.onChanged?.call(selectedDate);
       });
