@@ -28,6 +28,7 @@ class _TimetableCalendartViewState extends State<TimetableCalendartView> {
   CalendarController controller = CalendarController();
   late DateTime selectedStartDate;
   late DateTime selectedEndDate;
+  bool _isFirstViewChange = true; // Biến trạng thái để kiểm soát lần đầu
 
   List<AppointmentMoon> appointments = [];
 
@@ -80,6 +81,11 @@ class _TimetableCalendartViewState extends State<TimetableCalendartView> {
               showWeekNumber: true,
               firstDayOfWeek: 1,
               onViewChanged: (details) {
+                if (_isFirstViewChange) {
+                  // Bỏ qua lần đầu
+                  _isFirstViewChange = false;
+                  return;
+                }
                 final dates = details.visibleDates;
                 widget.onChangeDateFillter?.call(dates.first, dates.last);
               },
@@ -200,23 +206,23 @@ class _TimetableCalendartViewState extends State<TimetableCalendartView> {
     );
   }
 
-  Widget _renderDatetimePickerRanger() {
-    return SelectedTimeRangeWidget(
-      onlyPickRange: true,
-      startTimeInit: selectedStartDate,
-      endTimeInit: selectedEndDate,
-      onSelectDate: (start, end) {
-        setState(() {
-          controller
-            ..selectedDate = start
-            ..displayDate = start;
-          selectedStartDate = start;
-          selectedEndDate = end;
-          widget.onChangeDateFillter?.call(start, end);
-        });
-      },
-    );
-  }
+  // Widget _renderDatetimePickerRanger() {
+  //   return SelectedTimeRangeWidget(
+  //     onlyPickRange: true,
+  //     startTimeInit: selectedStartDate,
+  //     endTimeInit: selectedEndDate,
+  //     onSelectDate: (start, end) {
+  //       setState(() {
+  //         controller
+  //           ..selectedDate = start
+  //           ..displayDate = start;
+  //         selectedStartDate = start;
+  //         selectedEndDate = end;
+  //         widget.onChangeDateFillter?.call(start, end);
+  //       });
+  //     },
+  //   );
+  // }
 }
 
 // DataSource cho lịch
