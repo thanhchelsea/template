@@ -73,6 +73,11 @@ class _TimetableCalendartViewState extends State<TimetableCalendartView> {
           Expanded(
             child: SfCalendar(
               view: CalendarView.week,
+              todayHighlightColor: Colors.white, // Theme.of(context).primaryColor,
+              weekNumberStyle: WeekNumberStyle(
+                backgroundColor: Theme.of(context).primaryColor,
+                textStyle: TextStyle(fontSize: 16, color: controller.view == CalendarView.week ? Colors.black : Colors.white),
+              ),
               // Chế độ xem tuần
               controller: controller,
               showDatePickerButton: true,
@@ -96,7 +101,7 @@ class _TimetableCalendartViewState extends State<TimetableCalendartView> {
               showTodayButton: true,
               headerStyle: CalendarHeaderStyle(
                 backgroundColor: Theme.of(context).primaryColor,
-                textStyle: TextStyle(fontSize: 22, color: Colors.white),
+                textStyle: TextStyle(fontSize: 22, color: const Color.fromARGB(255, 168, 168, 168)),
               ),
               timeSlotViewSettings: const TimeSlotViewSettings(
                 startHour: 6,
